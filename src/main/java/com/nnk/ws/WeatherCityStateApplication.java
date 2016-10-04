@@ -3,6 +3,7 @@ package com.nnk.ws;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
@@ -11,6 +12,7 @@ import com.nnk.service.CityStateZipCodeService;
 import com.nnk.service.CityStateZipCodeServiceImpl;
 
 @SpringBootApplication
+@EnableCaching
 @ComponentScan({ "com.nnk.*" })
 public class WeatherCityStateApplication {
 	public static void main(String[] args) {
