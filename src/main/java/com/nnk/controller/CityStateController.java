@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nnk.helper.ResponseHelper;
+import com.nnk.model.PlaceDetails;
 import com.nnk.model.WeatherByCityStateResponse;
 
 @RestController
@@ -38,4 +39,18 @@ public class CityStateController {
 		
 	}
 
+	@RequestMapping(
+			  value = "/getZipForCityState", 
+			  params = { "state", "city" },
+			  method = RequestMethod.GET
+			  )
+	
+	@ResponseBody
+	public PlaceDetails getZipCodeForCityState(@RequestParam String state, @RequestParam String city){
+		
+		System.out.println("City , State "+ city +" ,"+state);
+		
+		return responseHelper.getZipCodeFromCityState(city, state);
+		
+	}
 }

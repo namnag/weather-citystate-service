@@ -1,6 +1,9 @@
 package com.nnk.helper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +16,9 @@ import com.nnk.ws.WeatherByZipClient;
 @Component
 public class ResponseHelper {
 
+	private static final Logger log = LoggerFactory.getLogger(ResponseHelper.class);
+
+	
 	@Autowired
 	WeatherByZipClient weatherByZipClient;
 	
@@ -22,7 +28,7 @@ public class ResponseHelper {
 	public WeatherByCityStateResponse restResponseMapper (String city, String state){
 		WeatherByCityStateResponse getWeatherResponse = new WeatherByCityStateResponse();
 		
-		PlaceDetails placeDetailResponse  = cityStateZipCodeService.getZipCodeFromCityState(city, state);
+		PlaceDetails placeDetailResponse  = getZipCodeFromCityState(city, state);
 		System.out.println(placeDetailResponse.toString());
 		
 		String zipCode = placeDetailResponse.getPlaces().get(0).getPostCode();;
@@ -43,5 +49,11 @@ public class ResponseHelper {
 
 		return getWeatherResponse;
 		
+	}
+
+	@Cacheable(cacheNames = "cityStateForZip")
+	public PlaceDetails getZipCodeFromCityState(String city, String state) {
+		log.info("Getting Information From Rest Call");
+		return cityStateZipCodeService.getZipCodeFromCityState(city, state);
 	}
 }
