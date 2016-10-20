@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import com.nnk.model.PlaceDetails;
 import com.nnk.model.WeatherByCityStateResponse;
 import com.nnk.service.CityStateZipCodeService;
-import com.nnk.weatherbyzip.GetWeatherResponse;
+import com.weather.jaxb.GetWeatherResponse;
 import com.nnk.ws.WeatherByZipClient;
 
 @Component
