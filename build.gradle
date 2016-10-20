@@ -18,10 +18,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
-jar {
-	baseName = 'weather-city-state'
-	version = '0.0.1-SNAPSHOT'
-}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -33,7 +30,7 @@ repositories {
 task genJaxb {
     ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
     ext.classesDir = "${buildDir}/classes/jaxb"
-    ext.schema = "http://localhost:8080/ws/weather.wsdl"
+    ext.schema = "http://weather-zipcode-service.cfapps.io/ws/weather.wsdl"
 
     outputs.dir classesDir
 
@@ -45,7 +42,7 @@ task genJaxb {
             mkdir(dir: classesDir)
 
             xjc(destdir: sourcesDir, schema: schema,
-                    package: "com.nnk.weatherbyzip") {
+                    package: "com.weather.jaxb") {
                 arg(value: "-wsdl")
                 produces(dir: sourcesDir, includes: "**/*.java")
             }
@@ -71,10 +68,17 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web-services')
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-cache')
-	compile group: 'org.aspectj', name: 'aspectjrt', version: '1.7.3'
-	compile group: 'org.aspectj', name: 'aspectjtools', version: '1.6.2'
 	
 	compile(files(genJaxb.classesDir).builtBy(genJaxb))
 
     jaxb "com.sun.xml.bind:jaxb-xjc:2.1.7"
+}
+task afterEclipseImport {
+    dependsOn genJaxb
+}
+jar {
+	baseName = 'weather-city-state'
+	version = '0.0.1-SNAPSHOT'
+    from genJaxb.classesDir
+	
 }
