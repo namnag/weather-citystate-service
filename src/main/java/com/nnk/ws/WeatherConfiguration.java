@@ -11,7 +11,7 @@ public class WeatherConfiguration {
 	@Bean
 	public Jaxb2Marshaller marshaller() {
 		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-		marshaller.setContextPath("com.weather.jaxb");
+		marshaller.setContextPath("com.nnk.weatherbyzip");
 		return marshaller;
 	}
 
